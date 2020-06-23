@@ -51,7 +51,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const DetailCard = ({ flowerIndex, flower }) => {
-	console.log('flower', flower);
 	const classes = useStyles();
 
 	const {
@@ -76,6 +75,7 @@ const DetailCard = ({ flowerIndex, flower }) => {
 	return (
 		<>
 			<Comments flowerIndex={flowerIndex} />
+
 			<Card className={classes._card}>
 				{img !== '' ? (
 					<img className={classes._img} src={img} alt='Card-img-cap' />

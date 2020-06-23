@@ -6,6 +6,22 @@ const AppContext = createContext(null);
 const initialState = {
 	flowers: [],
 	comments: null,
+	filter: {
+		season: {
+			Spring: false,
+			'Early Spring': false,
+			'Mid Spring': false,
+			'Late Spring': false,
+			Summer: false,
+			'Early Summer': false,
+			'Mid Summer': false,
+			'Late Summer': false,
+		},
+		sun: {
+			true: false,
+			false: false,
+		},
+	},
 };
 
 export default class AppState extends Component {
@@ -17,11 +33,13 @@ export default class AppState extends Component {
 		this.setters = {
 			getComments: this.getComments,
 			commentSubmit: this.commentSubmit,
+			setFilter: this.setFilter,
 		};
 
 		this.flowerInit = this.flowerInit.bind(this);
 		this.getComments = this.getComments.bind(this);
 		this.commentSubmit = this.commentSubmit.bind(this);
+		this.setFilter = this.setFilter.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -33,9 +51,13 @@ export default class AppState extends Component {
 
 		const { data: flowers } = res;
 
-		console.log('flowers', flowers);
+		// append flowerIndex, following the "api-id" while keeping them filterable
+		const withIndexes = flowers.map((flower, nth) => ({
+			...flower,
+			flowerIndex: nth,
+		}));
 
-		this.setState({ flowers });
+		this.setState({ flowers: withIndexes });
 	};
 
 	// fetch flower-comments
@@ -62,6 +84,20 @@ export default class AppState extends Component {
 				// optional callback
 				if (typeof callback === 'function') callback();
 			});
+	};
+
+	setFilter = ({ type, key, val, callback }) => {
+		this.setState(
+			(ps) => {
+				const filter = { ...ps.filter };
+				filter[type][key] = val;
+
+				return { filter };
+			},
+			() => {
+				if (typeof callback === 'function') callback();
+			}
+		);
 	};
 
 	render() {

@@ -1,57 +1,50 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { withAppState } from '../../state';
 import { ListCard } from '../../components/FlowerCard';
+import FlowerFilter from '../../components/FlowerFilter';
 
 const Flowers = ({ appState, appSetters }) => {
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState({
-		status: false,
-		msg: '',
-	});
 
-	const { flowers } = appState;
+	const { flowers, filter } = appState;
 	const { appendErr } = appSetters;
 
-	// flower loading state
-	useEffect(() => {
-		if (flowers.length < 1) {
-			setLoading(true);
-		} else {
-			setLoading(false);
-		}
-
-		return () => {
-			// cleanup...
-		};
-	}, [flowers]);
-
-	// err state
-	useEffect(() => {
-		if (error.status === true) {
-			appendErr(error.msg, 'flowers' + __filename);
-
-			setError({
-				status: false,
-				msg: '',
-			});
-		}
-
-		return () => {
-			// cleanup...
-		};
-	}, [error]);
-
-	// render fallbacks
-	if (error.status === true) {
-		return (
-			<div>
-				<h1>Something went wrong...</h1>
-			</div>
+	const seasonFilter = (flower) => {
+		const active = Object.keys(filter.season).filter(
+			(a) => filter.season[a] === true
 		);
-	}
 
-	if (loading)
+		if (active.length < 1) return true;
+
+		let res = false;
+		active.forEach((a) => {
+			if (flower.blooming_season === a) res = true;
+		});
+
+		return res;
+	};
+
+	const sunFilter = (flower) => {
+		const active = Object.keys(filter.sun).filter(
+			(a) => filter.sun[a] === true
+		);
+
+		console.log('active', active);
+
+		if (active.length < 1) return true;
+
+		let res = false;
+		active.forEach((a) => {
+			console.log('compare', flower.sun, Boolean(a));
+			if (String(flower.sun) === a) res = true;
+		});
+
+		return res;
+	};
+
+	// *** temp placeholder
+	if (!flowers)
 		return (
 			<div>
 				<h1>Loading flowers...</h1>
@@ -62,18 +55,23 @@ const Flowers = ({ appState, appSetters }) => {
 		<div>
 			<h1>Bee Spa</h1>
 
+			<FlowerFilter />
+
 			<div className='flower-list'>
-				{flowers.map((flower, nth) => (
-					<Link
-						key={flower._id.oid}
-						href='/flowers/[flower]'
-						as={`/flowers/${nth}`}
-					>
-						<a>
-							<ListCard flower={flower} />
-						</a>
-					</Link>
-				))}
+				{flowers
+					.filter((flower) => seasonFilter(flower))
+					.filter((flower) => sunFilter(flower))
+					.map((flower, nth) => (
+						<Link
+							key={flower._id.oid}
+							href='/flowers/[flower]'
+							as={`/flowers/${flower.flowerIndex}`}
+						>
+							<a>
+								<ListCard flower={flower} />
+							</a>
+						</Link>
+					))}
 			</div>
 
 			<style jsx>{`
@@ -91,7 +89,11 @@ const Flowers = ({ appState, appSetters }) => {
 	);
 };
 
-// *** causes route-delay, using ctx-hook instead
+/*
+ * buildtime props (below) causes some routing-delay
+ * perhaps a dev-mode-thing, but just in case we use ctx-hook for better xperience
+ ***********************************************************************************/
+
 // define props at build
 /* export async function getStaticProps() {
 	const res = await api.getFlowerList();

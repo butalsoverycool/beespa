@@ -1,11 +1,6 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { withAppState } from '../../state';
-import * as api from '../../constants/api';
 import { DetailCard } from '../../components/FlowerCard';
-import Comments from '../../components/Comments/Comments';
-import { NewComment } from '../../components/Comments';
 
 const Flower = ({ appState, appSetters }) => {
 	const { flowers } = appState;
@@ -15,22 +10,26 @@ const Flower = ({ appState, appSetters }) => {
 
 	const flower = flowers[flowerIndex];
 
-	/* useEffect(() => {
-		console.log('flower', flower);
-	}, []); */
-
-	if (!flower) return <div>fail...</div>;
+	// *** temp placeholder
+	if (!flower)
+		return (
+			<div>
+				<h1>Loading...</h1>
+			</div>
+		);
 
 	return (
 		<>
 			<DetailCard flowerIndex={flowerIndex} flower={flower} />
-			{/* <Comments flowerIndex={flowerIndex} /> */}
-			<NewComment flowerIndex={flowerIndex} />
 		</>
 	);
 };
 
-// *** causes route-delay, using ctx-hook instead
+/*
+ * buildtime props (below) causes some routing-delay
+ * perhaps a dev-mode-thing, but just in case we use ctx-hook for better xperience
+ ***********************************************************************************/
+
 /* // generate paths at build for dynamic routing
 export async function getStaticPaths() {
 	// fresh flower-list
