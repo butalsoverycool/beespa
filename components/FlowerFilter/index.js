@@ -55,6 +55,12 @@ const useStyles = makeStyles(styles);
 
 const filterTabs = ({ classes, filter, setFilter }) => [
 	{
+		tabName: 'Filter',
+		tabContent: '',
+		title: true,
+		titleStyle: {},
+	},
+	{
 		tabName: 'Season',
 		tabContent: (
 			<div className={classes.formRoot}>
@@ -85,7 +91,9 @@ const filterTabs = ({ classes, filter, setFilter }) => [
 							/>
 						))}
 					</FormGroup>
-					<FormHelperText>Choose blooming seasons</FormHelperText>
+					<Button onClick={() => setFilter({ reset: true })}>
+						Reset filters
+					</Button>
 				</FormControl>
 			</div>
 		),
@@ -121,7 +129,6 @@ const filterTabs = ({ classes, filter, setFilter }) => [
 							/>
 						))}
 					</FormGroup>
-					<FormHelperText>Choose blooming seasons</FormHelperText>
 				</FormControl>
 			</div>
 		),
@@ -141,6 +148,9 @@ const FlowerFilter = ({ appState, appSetters }) => {
 			className={classes._tabContainer}
 			headerColor='success'
 			tabs={filterTabs({ classes, filter, setFilter })}
+			plainTabs={true}
+			defaultKey={1}
+			onChange={(activeKey) => console.log('tab change!')}
 		/>
 	);
 };

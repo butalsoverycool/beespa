@@ -52,8 +52,8 @@ const Flowers = ({ appState, appSetters }) => {
 		);
 
 	return (
-		<div>
-			<h1>Bee Spa</h1>
+		<div className='content-container'>
+			<h1 style={{ margin: '0 0 40px' }}>Bee Spa</h1>
 
 			<FlowerFilter />
 

@@ -86,9 +86,11 @@ export default class AppState extends Component {
 			});
 	};
 
-	setFilter = ({ type, key, val, callback }) => {
+	setFilter = ({ type, key, val, reset, callback }) => {
 		this.setState(
 			(ps) => {
+				if (reset) return { filter: initialState.filter };
+
 				const filter = { ...ps.filter };
 				filter[type][key] = val;
 
