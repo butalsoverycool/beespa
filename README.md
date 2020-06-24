@@ -2,8 +2,6 @@
 
 ###### small project using a botanic rest-api
 
-#
-
 ##### Targeted users: Bees
 
 ##### Stack: Firebase(rest api) 🐝 NextJS 🐝 ReactJs
@@ -20,23 +18,18 @@
 -  transitions and bee-interactions
 -  invent any kind of layout/design
 
-## How to Pull Request
+## Get started
 
-1. Create a new feature branch:
+1. Clone this repo
    ```bash
-   git checkout -b feature/shiny-feature
+   git clone https://github.com/butalsoverycool/beespa.git
    ```
-2. Work on the new feature...
-3. Add the files you want to commit to staging e.g:
+2. Enter the cloned repo and install the dependencies
    ```bash
-   git add .
+   npm i
    ```
-4. Commit changes:
+3. Start the dev server
    ```bash
-   git commit -m "Added shiny feature"
+   npm run dev
    ```
-5. Push the local branch to remote:
-   ```bash
-   git push -u origin feature/shiny-feature
-   ```
-6. Open a pull request on Github.
+4. Preview site on localhost:3000
