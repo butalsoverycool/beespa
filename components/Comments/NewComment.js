@@ -27,8 +27,14 @@ const Input = (props) => {
 };
 
 const customStyles = {
+	_form: {
+		padding: '10px',
+	},
 	_submit: {
 		cursor: 'pointer',
+	},
+	_btn: {
+		width: '200px',
 	},
 };
 
@@ -47,7 +53,7 @@ const NewComment = ({ flowerIndex, appState, appSetters }) => {
 
 	return (
 		<>
-			<FormControl>
+			<FormControl className={classes._form}>
 				<Input
 					inputProps={{
 						required: true,
@@ -60,7 +66,7 @@ const NewComment = ({ flowerIndex, appState, appSetters }) => {
 				<Button
 					variant='contained'
 					color='primary'
-					className={classes.button}
+					className={classes._btn}
 					onClick={() =>
 						commentSubmit({
 							flowerIndex,

@@ -23,14 +23,11 @@ export default function CustomTabs({ onChange, defaultKey, ...props }) {
 
 	const [value, setValue] = React.useState(defaultKey);
 
-	const handleChange = (event, newVal) => {
-		if (newVal === value) {
-			// edit: toggle tab-select
-			setValue(0);
-		} else {
-			setValue(newVal);
-		}
+	const handleChange = (event, input) => {
+		// edit: toggle tab-select
+		let newVal = input !== value ? input : 0;
 
+		setValue(newVal);
 		onChange(newVal); // edit: added callback
 	};
 	const classes = useStyles();

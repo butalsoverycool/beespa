@@ -67,7 +67,7 @@ const Flowers = ({ appState, appSetters }) => {
 							href='/flowers/[flower]'
 							as={`/flowers/${flower.flowerIndex}`}
 						>
-							<a>
+							<a className='flower-link'>
 								<ListCard flower={flower} />
 							</a>
 						</Link>
@@ -83,6 +83,19 @@ const Flowers = ({ appState, appSetters }) => {
 					width: 100%;
 					flex-wrap: wrap;
 					justify-content: center;
+				}
+
+				@media all and (max-width: 679px) {
+					.flower-link {
+						width: 50%;
+						margin: 0;
+					}
+				}
+
+				@media all and (max-width: 480px) {
+					.flower-link {
+						width: 100%;
+					}
 				}
 			`}</style>
 		</div>

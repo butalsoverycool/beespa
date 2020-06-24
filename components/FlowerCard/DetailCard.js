@@ -1,4 +1,5 @@
 // material-ui components
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // core components
 import Card from 'components/Card/Card.js';
@@ -16,6 +17,10 @@ import beeCursor from 'public/bee_icon.png';
 import { Comments, NewComment } from '../Comments';
 
 const customStyles = {
+	_container: {
+		maxWidth: '800px',
+		margin: 'auto',
+	},
 	_card: {
 		width: '100%',
 		/* maxWidth: '40rem', */
@@ -36,6 +41,11 @@ const customStyles = {
 		opacity: '.1',
 		background: 'green',
 		cursor: `url(${beeCursor}), auto`,
+	},
+	_linkBtn: {
+		maxWidth: '300px',
+		margin: '10px auto 0',
+		boxShadow: 'none',
 	},
 };
 
@@ -73,7 +83,7 @@ const DetailCard = ({ flowerIndex, flower }) => {
 			: `${height[0].numberInt} to ${height[1].numberInt}`;
 
 	return (
-		<>
+		<div className={classes._container}>
 			<Comments flowerIndex={flowerIndex} />
 
 			<Card className={classes._card}>
@@ -82,7 +92,15 @@ const DetailCard = ({ flowerIndex, flower }) => {
 				) : (
 					<LocalFlorist className={classes._imgFallback} />
 				)}
+
+				<Button color='secondary' className={classes._linkBtn}>
+					<Link href='/flowers' as='/flowers'>
+						<a style={{ color: 'black' }}>back</a>
+					</Link>
+				</Button>
+
 				<NewComment flowerIndex={flowerIndex} />
+
 				<CardBody>
 					<h4 className={classes.cardTitle}>
 						Welcome to our {name}-lounge!
@@ -119,12 +137,18 @@ const DetailCard = ({ flowerIndex, flower }) => {
 						forward to your visit!
 					</p>
 
-					<Link href='/flowers' as='/flowers'>
-						<a>back to spa entrance</a>
-					</Link>
+					<Button
+						variant='contained'
+						color='default'
+						className={classes._linkBtn}
+					>
+						<Link href='/flowers' as='/flowers'>
+							<a style={{ color: 'black' }}>back to spa entrance</a>
+						</Link>
+					</Button>
 				</CardBody>
 			</Card>
-		</>
+		</div>
 	);
 };
 

@@ -7,6 +7,7 @@ import {
 	FormLabel,
 	FormControlLabel,
 	FormHelperText,
+	Paper,
 	Checkbox,
 	Switch,
 	Button,
@@ -53,104 +54,118 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const filterTabs = ({ classes, filter, setFilter }) => [
-	{
-		tabName: 'Filter',
-		tabContent: '',
-		title: true,
-		titleStyle: {},
-	},
-	{
-		tabName: 'Season',
-		tabContent: (
-			<div className={classes.formRoot}>
-				<FormControl component='fieldset' className={classes.formControl}>
-					<FormLabel component='legend'>Pick blooming season(s)</FormLabel>
-					<FormGroup className={classes._formGroup}>
-						{seasons.map((season) => (
-							<FormControlLabel
-								className={classes._groupItem}
-								key={season}
-								control={
-									<Checkbox
-										className={classes._checkbox}
-										checked={filter[season]}
-										onChange={(e) =>
-											setFilter({
-												type: 'season',
-												key: season,
-												val: e.target.checked,
-											})
-										}
-										inputProps={{
-											'aria-label': 'primary checkbox',
-										}}
-									/>
-								}
-								label={season}
-							/>
-						))}
-					</FormGroup>
-					<Button onClick={() => setFilter({ reset: true })}>
-						Reset filters
-					</Button>
-				</FormControl>
-			</div>
-		),
-	},
-	{
-		tabName: 'Sunlight',
-		tabContent: (
-			<div className={classes.formRoot}>
-				<FormControl component='fieldset' className={classes.formControl}>
-					<FormLabel component='legend'>Flower likes</FormLabel>
-					<FormGroup className={classes._formGroup}>
-						{sun.map((opt) => (
-							<FormControlLabel
-								className={classes._groupItem}
-								key={opt}
-								control={
-									<Checkbox
-										className={classes._checkbox}
-										checked={filter[opt]}
-										onChange={(e) =>
-											setFilter({
-												type: 'sun',
-												key: opt,
-												val: e.target.checked,
-											})
-										}
-										inputProps={{
-											'aria-label': 'primary checkbox',
-										}}
-									/>
-								}
-								label={opt ? 'sun' : 'darkness'}
-							/>
-						))}
-					</FormGroup>
-				</FormControl>
-			</div>
-		),
-	},
-];
-
 const FlowerFilter = ({ appState, appSetters }) => {
 	const { filter } = appState;
 	const { setFilter } = appSetters;
 
 	const classes = useStyles();
 
-	console.log('seasons', seasons);
+	console.log('seasons', filter.season);
+
+	const [updatedFilters, setUpdatedFilters] = useState(filter);
 
 	return (
 		<CustomTabs
 			className={classes._tabContainer}
 			headerColor='success'
-			tabs={filterTabs({ classes, filter, setFilter })}
+			tabs={[
+				{
+					tabName: 'Filter',
+					tabContent: '',
+					title: true,
+					titleStyle: {},
+				},
+				{
+					tabName: 'Season',
+					tabContent: (
+						<div className={classes.formRoot}>
+							<FormControl
+								component='fieldset'
+								className={classes.formControl}
+							>
+								<FormLabel component='legend'>
+									Pick blooming season(s)
+								</FormLabel>
+								<FormGroup className={classes._formGroup}>
+									{seasons.map((season) => {
+										return (
+											<FormControlLabel
+												className={classes._groupItem}
+												key={season}
+												control={
+													<Checkbox
+														type='checkbox'
+														className={classes._checkbox}
+														checked={filter.season[season]}
+														onChange={(e) =>
+															setFilter({
+																type: 'season',
+																key: season,
+																val: e.target.checked,
+															})
+														}
+														inputProps={{
+															'aria-label': 'primary checkbox',
+														}}
+													/>
+												}
+												label={season}
+											/>
+										);
+									})}
+								</FormGroup>
+								<Button onClick={() => setFilter({ reset: true })}>
+									Reset all filters
+								</Button>
+							</FormControl>
+						</div>
+					),
+				},
+				{
+					tabName: 'Sunlight',
+					tabContent: (
+						<div className={classes.formRoot}>
+							<FormControl
+								component='fieldset'
+								className={classes.formControl}
+							>
+								<FormLabel component='legend'>Flower likes</FormLabel>
+								<FormGroup className={classes._formGroup}>
+									{sun.map((opt) => (
+										<FormControlLabel
+											className={classes._groupItem}
+											key={opt}
+											control={
+												<Checkbox
+													className={classes._checkbox}
+													checked={filter[opt]}
+													onChange={(e) =>
+														setFilter({
+															type: 'sun',
+															key: opt,
+															val: e.target.checked,
+														})
+													}
+													inputProps={{
+														'aria-label': 'primary checkbox',
+													}}
+												/>
+											}
+											label={opt ? 'sun' : 'darkness'}
+										/>
+									))}
+								</FormGroup>
+								<Button onClick={() => setFilter({ reset: true })}>
+									Reset all filters
+								</Button>
+							</FormControl>
+						</div>
+					),
+				},
+			]}
 			plainTabs={true}
-			defaultKey={1}
-			onChange={(activeKey) => console.log('tab change!')}
+			defaultKey={0}
+			onChange={(activeKey) => setUpdatedFilters(filter)}
 		/>
 	);
 };

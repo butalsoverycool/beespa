@@ -1,5 +1,6 @@
 import React, { Component, createContext } from 'react';
 import * as api from '../constants/api';
+import { clone } from '../constants/helperFuncs';
 
 const AppContext = createContext(null);
 
@@ -28,7 +29,7 @@ export default class AppState extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { ...initialState };
+		this.state = clone(initialState);
 
 		this.setters = {
 			getComments: this.getComments,
@@ -72,6 +73,8 @@ export default class AppState extends Component {
 
 	// handle submit
 	commentSubmit = async ({ flowerIndex, payload, callback }) => {
+		if (!payload || payload === '') return;
+
 		await api
 			.createComment({
 				flowerIndex,
@@ -89,7 +92,9 @@ export default class AppState extends Component {
 	setFilter = ({ type, key, val, reset, callback }) => {
 		this.setState(
 			(ps) => {
-				if (reset) return { filter: initialState.filter };
+				if (reset === true) {
+					return { filter: clone(initialState.filter) };
+				}
 
 				const filter = { ...ps.filter };
 				filter[type][key] = val;
