@@ -23,6 +23,7 @@ const initialState = {
 			false: false,
 		},
 	},
+	displayedFilterKey: 0,
 };
 
 export default class AppState extends Component {
@@ -35,12 +36,14 @@ export default class AppState extends Component {
 			getComments: this.getComments,
 			commentSubmit: this.commentSubmit,
 			setFilter: this.setFilter,
+			setDisplayedFilterKey: this.setDisplayedFilterKey,
 		};
 
 		this.flowerInit = this.flowerInit.bind(this);
 		this.getComments = this.getComments.bind(this);
 		this.commentSubmit = this.commentSubmit.bind(this);
 		this.setFilter = this.setFilter.bind(this);
+		this.setDisplayedFilterKey = this.setDisplayedFilterKey.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -105,6 +108,12 @@ export default class AppState extends Component {
 				if (typeof callback === 'function') callback();
 			}
 		);
+	};
+
+	setDisplayedFilterKey = ({ displayedFilterKey, callback }) => {
+		this.setState({ displayedFilterKey }, () => {
+			if (typeof callback === 'function') callback();
+		});
 	};
 
 	render() {

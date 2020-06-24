@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 import { cardTitle } from 'assets/jss/nextjs-material-kit.js';
 
-import beeCursor from 'public/bee_icon.png';
+import beeCursor from 'assets/img/bee_icon.png';
 
 import { Comments, NewComment } from '../Comments';
 
@@ -25,6 +25,7 @@ const customStyles = {
 		width: '100%',
 		/* maxWidth: '40rem', */
 		margin: '0 auto',
+		background: 'whitesmoke',
 	},
 
 	_tag: {
@@ -45,7 +46,12 @@ const customStyles = {
 	_linkBtn: {
 		maxWidth: '300px',
 		margin: '10px auto 0',
-		boxShadow: 'none',
+		border: 'none',
+		borderBottom: 'solid 1px #ddd',
+		'&:hover': {
+			borderBottom: 'solid 1px #aaa',
+			background: 'none',
+		},
 	},
 };
 
@@ -53,6 +59,11 @@ const styles = {
 	_img: {
 		...imagesStyles.imgCardTop,
 		cursor: `url(${beeCursor}), auto`,
+		filter: 'grayscale(100%)',
+		'&:hover': {
+			filter: 'grayscale(0)',
+		},
+		transition: '1s',
 	},
 	cardTitle,
 	...customStyles,
@@ -93,7 +104,11 @@ const DetailCard = ({ flowerIndex, flower }) => {
 					<LocalFlorist className={classes._imgFallback} />
 				)}
 
-				<Button color='secondary' className={classes._linkBtn}>
+				<Button
+					variant='outlined'
+					color='default'
+					className={classes._linkBtn}
+				>
 					<Link href='/flowers' as='/flowers'>
 						<a style={{ color: 'black' }}>back</a>
 					</Link>
@@ -138,7 +153,7 @@ const DetailCard = ({ flowerIndex, flower }) => {
 					</p>
 
 					<Button
-						variant='contained'
+						variant='outlined'
 						color='default'
 						className={classes._linkBtn}
 					>

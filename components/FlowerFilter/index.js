@@ -40,6 +40,7 @@ const tabStyles = {
 	tabContainer: {
 		display: 'flex',
 		justifyContent: 'center',
+		margin: 'none',
 	},
 	textCenter: {
 		textAlign: 'center',
@@ -55,19 +56,19 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const FlowerFilter = ({ appState, appSetters }) => {
-	const { filter } = appState;
-	const { setFilter } = appSetters;
+	const { filter, displayedFilterKey } = appState;
+	const { setFilter, setDisplayedFilterKey } = appSetters;
 
 	const classes = useStyles();
 
 	console.log('seasons', filter.season);
 
-	const [updatedFilters, setUpdatedFilters] = useState(filter);
+	const defaultFilterKey = 0;
 
 	return (
 		<CustomTabs
-			className={classes._tabContainer}
-			headerColor='success'
+			className={['tab-container', classes._tabContainer].join(' ')}
+			headerColor='warning'
 			tabs={[
 				{
 					tabName: 'Filter',
@@ -138,7 +139,7 @@ const FlowerFilter = ({ appState, appSetters }) => {
 											control={
 												<Checkbox
 													className={classes._checkbox}
-													checked={filter[opt]}
+													checked={filter.sun[opt]}
 													onChange={(e) =>
 														setFilter({
 															type: 'sun',
@@ -164,8 +165,11 @@ const FlowerFilter = ({ appState, appSetters }) => {
 				},
 			]}
 			plainTabs={true}
-			defaultKey={0}
-			onChange={(activeKey) => setUpdatedFilters(filter)}
+			defaultKey={defaultFilterKey}
+			activeKey={displayedFilterKey}
+			onChange={(activeKey) => {
+				setDisplayedFilterKey({ displayedFilterKey: activeKey });
+			}}
 		/>
 	);
 };

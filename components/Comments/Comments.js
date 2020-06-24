@@ -11,7 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import CustomInput from 'components/CustomInput/CustomInput.js';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import beeCursor from '../../public/bee_icon.png';
+import beeCursor from 'assets/img/bee_icon.png';
 
 import {
 	CarouselProvider,
@@ -46,11 +46,7 @@ const customStyles = {
 	_submit: {
 		cursor: 'pointer',
 	},
-	_commentsContainer: {
-		position: 'absolute',
-		width: '500px',
-		height: 'fit-content',
-	},
+
 	_slider: {
 		fontSize: '.8em',
 		fontStyle: 'italic',
@@ -79,7 +75,11 @@ const Comments = ({ flowerIndex, appState, appSetters }) => {
 	}, []);
 
 	return (
-		<div className={['comments-container', classes._container].join(' ')}>
+		<div
+			className={['comments-container', classes._commentsContainer].join(
+				' '
+			)}
+		>
 			{comments === null ? (
 				<p className='comment-meta-msg'>Loading comments...</p>
 			) : (
@@ -90,12 +90,14 @@ const Comments = ({ flowerIndex, appState, appSetters }) => {
 						totalSlides={comments.length}
 						isPlaying={true}
 						interval={3000}
-						className='comments-container'
+						className='carousel-provider'
 					>
 						{comments.length > 0 && (
 							<p className={classes._commentTitle}>Other bees said</p>
 						)}
-						<Slider className={classes._slider}>
+						<Slider
+							className={['comment-slider', classes._slider].join(' ')}
+						>
 							{comments.map((item, nth) => (
 								<Slide key={nth} index={nth} className='comment'>
 									{item.comment}
@@ -110,12 +112,14 @@ const Comments = ({ flowerIndex, appState, appSetters }) => {
 					position: absolute;
 					z-index: 1;
 					width: 100%;
-					height: 100px;
+					height: 60px;
 					color: white;
+					background: rgba(0, 0, 0, 0.5);
 					font-weight: 700;
 					cursor: url(${beeCursor}), auto;
 					padding: 5px 0 0 5px;
 				}
+
 				.comment {
 					font-size: 0.8em;
 					font-style: italic;

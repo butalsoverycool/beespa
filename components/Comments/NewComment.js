@@ -35,6 +35,11 @@ const customStyles = {
 	},
 	_btn: {
 		width: '200px',
+		background: '#222',
+		color: 'whitesmoke',
+		'&:hover': {
+			background: '#111',
+		},
 	},
 };
 
@@ -60,12 +65,12 @@ const NewComment = ({ flowerIndex, appState, appSetters }) => {
 						onChange: (e) => setNewComment(e.target.value),
 						value: newComment,
 					}}
-					labelText='leave a comment'
+					labelText='leave a comment here'
 					aria-label='comment text'
+					color='primary'
 				/>
 				<Button
 					variant='contained'
-					color='primary'
 					className={classes._btn}
 					onClick={() =>
 						commentSubmit({

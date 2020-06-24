@@ -3,12 +3,38 @@ import Link from 'next/link';
 import { withAppState } from '../../state';
 import { ListCard } from '../../components/FlowerCard';
 import FlowerFilter from '../../components/FlowerFilter';
+import { makeStyles } from '@material-ui/core/styles';
+
+import { Paper } from '@material-ui/core';
+
+const styles = {
+	intro: {
+		margin: '0 auto 55px',
+		padding: '10px',
+		textAlign: 'center',
+		maxWidth: '400px',
+		background: 'none',
+	},
+	introTitle: {
+		fontSize: '1.4em',
+		margin: '0',
+	},
+	introText: {
+		margin: '0',
+		fontStyle: 'italic',
+		color: '#777',
+	},
+};
+
+const useStyles = makeStyles(styles);
 
 const Flowers = ({ appState, appSetters }) => {
 	const [loading, setLoading] = useState(true);
 
 	const { flowers, filter } = appState;
 	const { appendErr } = appSetters;
+
+	const classes = useStyles();
 
 	const seasonFilter = (flower) => {
 		const active = Object.keys(filter.season).filter(
@@ -30,13 +56,10 @@ const Flowers = ({ appState, appSetters }) => {
 			(a) => filter.sun[a] === true
 		);
 
-		console.log('active', active);
-
 		if (active.length < 1) return true;
 
 		let res = false;
 		active.forEach((a) => {
-			console.log('compare', flower.sun, Boolean(a));
 			if (String(flower.sun) === a) res = true;
 		});
 
@@ -53,7 +76,16 @@ const Flowers = ({ appState, appSetters }) => {
 
 	return (
 		<div className='content-container'>
-			<h1 style={{ margin: '0 0 40px' }}>Bee Spa</h1>
+			<h1>Bee Spa</h1>
+
+			<Paper className={classes.intro} elevation={0}>
+				{/* <h2 className={classes.introTitle}>Welcome!</h2> */}
+
+				<p className={classes.introText}>
+					Our wonderful spa is located in the Royal Cyber Gardens. Feel
+					free to bzz around through our private flower-lounges!
+				</p>
+			</Paper>
 
 			<FlowerFilter />
 
@@ -74,10 +106,29 @@ const Flowers = ({ appState, appSetters }) => {
 					))}
 			</div>
 
+			<style global jsx>{`
+				body {
+					background: #eee;
+				}
+
+				body * {
+					transition: 0.2s;
+				}
+			`}</style>
+
 			<style jsx>{`
 				h1 {
 					text-align: center;
 				}
+
+				.intro {
+					text-align: center;
+				}
+				.intro-title {
+				}
+				.intro-text {
+				}
+
 				.flower-list {
 					display: flex;
 					width: 100%;
@@ -86,8 +137,12 @@ const Flowers = ({ appState, appSetters }) => {
 				}
 
 				@media all and (max-width: 679px) {
+					.flower-list {
+						justify-content: flex-start;
+					}
 					.flower-link {
 						width: 50%;
+						height: 50vw;
 						margin: 0;
 					}
 				}
@@ -95,6 +150,7 @@ const Flowers = ({ appState, appSetters }) => {
 				@media all and (max-width: 480px) {
 					.flower-link {
 						width: 100%;
+						height: 275px;
 					}
 				}
 			`}</style>

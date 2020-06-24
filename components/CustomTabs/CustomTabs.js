@@ -16,9 +16,24 @@ import CardHeader from 'components/Card/CardHeader.js';
 
 import styles from 'assets/jss/nextjs-material-kit/components/customTabsStyle.js';
 
-const useStyles = makeStyles(styles);
+const customStyles = {
+	...styles,
+	tabContainer: {},
+	cardHeader: {
+		background: '#222',
+		borderRadius: '0',
+	},
+	cardBody: {},
+};
 
-export default function CustomTabs({ onChange, defaultKey, ...props }) {
+const useStyles = makeStyles(customStyles);
+
+export default function CustomTabs({
+	onChange,
+	defaultKey,
+	activeKey,
+	...props
+}) {
 	// edit: new props
 
 	const [value, setValue] = React.useState(defaultKey);
@@ -37,8 +52,12 @@ export default function CustomTabs({ onChange, defaultKey, ...props }) {
 		[classes.cardTitleRTL]: rtlActive,
 	});
 	return (
-		<Card plain={plainTabs}>
-			<CardHeader color={headerColor} plain={plainTabs}>
+		<Card plain={plainTabs} className={classes.tabContainer}>
+			<CardHeader
+				color={headerColor}
+				plain={plainTabs}
+				className={classes.cardHeader}
+			>
 				{title !== undefined ? (
 					<div className={cardTitle}>{title}</div>
 				) : null}
@@ -85,16 +104,19 @@ export default function CustomTabs({ onChange, defaultKey, ...props }) {
 					})}
 				</Tabs>
 			</CardHeader>
-			<CardBody>
-				{tabs.map((prop, key) => {
-					if (prop.title) {
+
+			{activeKey > 0 && (
+				<CardBody className={classes.cardBody}>
+					{tabs.map((prop, key) => {
+						if (prop.title) {
+							return null;
+						} else if (key === value) {
+							return <div key={key}>{prop.tabContent}</div>;
+						}
 						return null;
-					} else if (key === value) {
-						return <div key={key}>{prop.tabContent}</div>;
-					}
-					return null;
-				})}
-			</CardBody>
+					})}
+				</CardBody>
+			)}
 		</Card>
 	);
 }

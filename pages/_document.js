@@ -18,9 +18,9 @@ class MyDocument extends Document {
 						href={require('assets/img/favicon.png')}
 					/>
 					<link
-						rel='apple-touch-icon'
+						rel='bee-icon'
 						sizes='76x76'
-						href={require('assets/img/apple-icon.png')}
+						href={require('assets/img/bee_icon.png')}
 					/>
 					{/* Fonts and icons */}
 					<link
